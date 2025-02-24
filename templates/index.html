@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Management System</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fe;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            padding: 15px 20px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+        input, select, textarea {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+        .btn-secondary {
+            background: #4299e1;
+            color: white;
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .field-group {
+            margin-bottom: 16px;
+        }
+        .field-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .field-value {
+            color: #111;
+            font-size: 16px;
+        }
+        .status {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+        .info {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .info strong {
+            display: inline-block;
+            width: 150px;
+            color: #666;
+        }
+        .info span {
+            color: #111;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="container" id="loginPage">
+        <div class="card">
+            <h2 style="text-align: center; margin-bottom: 24px;">Welcome Back</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 24px;">Please sign in to continue</p>
+            <form id="loginForm">
+                <div class="field-group">
+                    <input type="text" id="username" placeholder="Enter your username" required />
+                </div>
+                <div class="field-group">
+                    <input type="password" id="password" placeholder="Enter your password" required />
+                    <div id="loginError" class="error-message">Invalid username or password</div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Search Page -->
+    <div id="searchPage" style="display: none;">
+        <div class="header">
+            <h2>Healthcare Management System</h2>
+            <div class="search-container">
+                <input type="text" id="patientSearch" placeholder="Enter Patient ID" />
+                <button class="btn btn-primary" onclick="searchPatientFromSearchPage()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Information Page -->
+    <div id="patientPage" style="display: none;">
+        <div class="header">
+            <h2>Healthcare Management System</h2>
+            <div class="search-container">
+                <input type="text" id="patientSearchHeader" placeholder="Enter Patient ID" />
+                <button class="btn btn-primary" onclick="searchPatientFromPatientPage()">Search</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <h3>Patient Information</h3>
+                <form id="patientForm">
+                    <div class="field-group">
+                        <label class="field-label" for="memberName">Member Name</label>
+                        <input type="text" id="memberName" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="memberId">Member ID</label>
+                        <input type="text" id="memberId" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="patientAddress">Address</label>
+                        <input type="text" id="patientAddress" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="patientPhone">Phone Number</label>
+                        <input type="text" id="patientPhone" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="patientInsuranceProvider">Insurance Provider</label>
+                        <input type="text" id="patientInsuranceProvider" class="field-value" />
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Claim Details</h3>
+                <form id="claimForm">
+                    <div class="field-group">
+                        <label class="field-label" for="claimNumber">Claim Number</label>
+                        <input type="text" id="claimNumber" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="dateOfService">Date of Service</label>
+                        <input type="date" id="dateOfService" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="billedAmount">Billed Amount</label>
+                        <input type="number" id="billedAmount" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="facilityName">Facility Name</label>
+                        <input type="text" id="facilityName" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="paymentMode">Payment Mode</label>
+                        <select id="paymentMode" class="field-value" onchange="togglePaymentFields()">
+                            <option value="">Select Payment Mode</option>
+                            <option value="Check">Check</option>
+                            <option value="EFT">EFT</option>
+                        </select>
+                    </div>
+                    <div id="checkNumberField" class="field-group" style="display: none;">
+                        <label class="field-label" for="checkNumber">Check Number</label>
+                        <input type="text" id="checkNumber" class="field-value" />
+                    </div>
+                    <div id="eftNumberField" class="field-group" style="display: none;">
+                        <label class="field-label" for="eftNumber">EFT Number</label>
+                        <input type="text" id="eftNumber" class="field-value" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="status">Status</label>
+                        <select id="status" class="field-value">
+                            <option value="">Select Status</option>
+                            <option value="Denied">Denied</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Process">In Process</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Notes</h3>
+                <form id="notesForm">
+                    <div class="field-group">
+                        <label class="field-label" for="patientNotes">Notes</label>
+                        <textarea id="patientNotes" class="field-value" placeholder="Enter detailed patient notes here..."></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" onclick="saveAllDetails()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="logoutButton" style="position: fixed; bottom: 20px; right: 20px;">
+        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+
+<script>
+    // Get all page elements
+    const loginPage = document.getElementById('loginPage');
+    const searchPage = document.getElementById('searchPage');
+    const patientPage = document.getElementById('patientPage');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+
+    // Check login state on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn === 'true') {
+            showPage(searchPage);
+        } else {
+            showPage(loginPage);
+        }
+    });
+
+    // Handle login form submission
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Simple validation - in real app, this would be an API call
+        if (username === 'admin' && password === 'password') {
+            localStorage.setItem('isLoggedIn', 'true');
+            showPage(searchPage);
+        } else {
+            loginError.style.display = 'block';
+        }
+    });
+
+    // Function to show a specific page and hide others
+    function showPage(pageToShow) {
+        [loginPage, searchPage, patientPage].forEach(page => {
+            page.style.display = 'none';
+        });
+        pageToShow.style.display = 'block';
+    }
+
+    // Handle patient search
+<!--    function searchPatient() {-->
+<!--    debugger;-->
+<!--        let patientId;-->
+<!--        if (document.getElementById('patientSearch')) {-->
+<!--            patientId = document.getElementById('patientSearch').value;-->
+<!--        } else {-->
+<!--            patientId = document.getElementById('patientSearchHeader').value;-->
+<!--        }-->
+<!--        fetchPatientData(patientId);-->
+<!--        patientId.clear();-->
+<!--    }-->
+
+     // Handle patient search from the search page
+    function searchPatientFromSearchPage() {
+        const patientId = document.getElementById('patientSearch').value;
+        if (!patientId) {
+            alert('Please enter a Patient ID');
+            return;
+        }
+        fetchPatientData(patientId);
+    }
+
+    // Handle patient search from the patient page
+    function searchPatientFromPatientPage() {
+        const patientId = document.getElementById('patientSearchHeader').value;
+        if (!patientId) {
+            alert('Please enter a Patient ID');
+            return;
+        }
+        fetchPatientData(patientId);
+    }
+
+
+    // Fetch patient data and populate the page
+    function fetchPatientData(patientId) {
+        fetch(`/api/patient/${patientId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Patient not found');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('patientAddress').value = data.address;
+                document.getElementById('patientPhone').value = data.phone;
+                document.getElementById('patientInsuranceProvider').value = data.insurance_provider;
+
+                // Populate claims if needed
+                // data.claims.forEach(claim => {
+                //     // Populate claim details
+                // });
+
+                showPage(patientPage);
+            })
+            .catch(error => {
+                console.error('Error fetching patient data:', error);
+                alert('Error fetching patient data');
+            });
+    }
+
+    // Handle payment mode selection
+    function togglePaymentFields() {
+        const paymentMode = document.getElementById('paymentMode').value;
+        const checkNumberField = document.getElementById('checkNumberField');
+        const eftNumberField = document.getElementById('eftNumberField');
+
+        checkNumberField.style.display = paymentMode === 'Check' ? 'block' : 'none';
+        eftNumberField.style.display = paymentMode === 'EFT' ? 'block' : 'none';
+    }
+
+    // Handle saving all details
+    function saveAllDetails() {
+        const patientData = {
+            memberName: document.getElementById('memberName').value,
+            memberId: document.getElementById('memberId').value,
+            address: document.getElementById('patientAddress').value,
+            phone: document.getElementById('patientPhone').value,
+            insuranceProvider: document.getElementById('patientInsuranceProvider').value
+        };
+
+        const claimData = {
+            claimNumber: document.getElementById('claimNumber').value,
+            dateOfService: document.getElementById('dateOfService').value,
+            billedAmount: document.getElementById('billedAmount').value,
+            facilityName: document.getElementById('facilityName').value,
+            paymentMode: document.getElementById('paymentMode').value,
+            checkNumber: document.getElementById('checkNumber').value,
+            eftNumber: document.getElementById('eftNumber').value,
+            status: document.getElementById('status').value
+        };
+
+        const notes = document.getElementById('patientNotes').value;
+
+        // Simulate saving to the database
+        console.log('Saving patient info:', patientData);
+        console.log('Saving claim details:', claimData);
+        console.log('Saving notes:', notes);
+
+        alert('All details saved successfully!');
+    }
+
+    // Handle logout
+    function logout() {
+        localStorage.removeItem('isLoggedIn');
+        showPage(loginPage);
+    }
+
+    // Initialize to login page
+    showPage(loginPage);
+</script>
+</body>
+</html>
