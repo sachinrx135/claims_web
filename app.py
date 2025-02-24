@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # Database setup
-DATABASE = 'healthcare.db'
+DATABASE = 'healthcare1.db'
 
 def query_db(query, args=(), one=False):
     conn = sqlite3.connect(DATABASE)
