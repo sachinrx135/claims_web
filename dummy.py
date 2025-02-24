@@ -104,7 +104,7 @@ def insert_note(patient_id):
 if __name__ == '__main__':
     init_db()
 
-    num_patients = 10
+    num_patients = 100
 
     for _ in range(num_patients):
         patient_id = insert_patient()
