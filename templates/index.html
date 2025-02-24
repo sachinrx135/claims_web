@@ -142,7 +142,7 @@
                     <input type="password" id="password" placeholder="Enter your password" required />
                     <div id="loginError" class="error-message">Invalid username or password</div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                <button type="submit" class="btn btn-primary" id="loginButton" style="width: 100%;">Sign In</button>
             </form>
         </div>
     </div>
@@ -153,7 +153,7 @@
             <h2>Healthcare Management System</h2>
             <div class="search-container">
                 <input type="text" id="patientSearch" placeholder="Enter Patient ID" />
-                <button class="btn btn-primary" onclick="searchPatientFromSearchPage()">Search</button>
+                <button class="btn btn-primary" id="searchButton" onclick="searchPatientFromSearchPage()">Search</button>
             </div>
         </div>
     </div>
@@ -164,7 +164,7 @@
             <h2>Healthcare Management System</h2>
             <div class="search-container">
                 <input type="text" id="patientSearchHeader" placeholder="Enter Patient ID" />
-                <button class="btn btn-primary" onclick="searchPatientFromPatientPage()">Search</button>
+                <button class="btn btn-primary" id="searchPatientButton" onclick="searchPatientFromPatientPage()">Search</button>
             </div>
         </div>
 
@@ -254,13 +254,13 @@
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" onclick="saveAllDetails()">Save</button>
+                <button type="button" class="btn btn-primary" id="saveButton" onclick="saveAllDetails()">Save</button>
             </div>
         </div>
     </div>
 
     <div id="logoutButton" style="position: fixed; bottom: 20px; right: 20px;">
-        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        <button class="btn btn-secondary" id="logoutButton" onclick="logout()">Logout</button>
     </div>
 
 <script>
