@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Management System</title>
+    <title>Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
@@ -149,25 +150,57 @@
 
     <!-- Search Page -->
     <div id="searchPage" style="display: none;">
-        <div class="header">
-            <h2>Healthcare Management System</h2>
-            <div class="search-container">
-                <input type="text" id="patientSearch" placeholder="Enter Patient ID" />
+        <nav class="bg-indigo-800 text-white">
+                <div class="container mx-auto flex justify-between items-center py-3 px-4">
+                    <div class="flex items-center space-x-6">
+                        <div class="text-xl font-bold">Health</div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="hover:text-gray-300">Calendar</a>
+                            <a href="#" class="hover:text-gray-300">Patients</a>
+                            <a href="#" class="hover:text-gray-300">Claims</a>
+                            <a href="#" class="hover:text-gray-300">Financials</a>
+                            <a href="#" class="hover:text-gray-300">Reports</a>
+                            <a href="#" class="hover:text-gray-300">Quality</a>
+                            <a href="#" class="hover:text-gray-300">Apps</a>
+                            <a href="#" class="hover:text-gray-300">Support</a>
+                        </div>
+                    </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" id="patientSearch" placeholder="Enter Patient ID" class="rounded px-2 py-1 text-black" />
                 <button class="btn btn-primary" id="searchButton" onclick="searchPatientFromSearchPage()">Search</button>
+                <div>maeburney19</div>
+                <button class="bg-red px-3 py-1 rounded hover:bg-red-700" onclick="logout()">Log out</button>
             </div>
         </div>
+        </nav>
     </div>
 
     <!-- Patient Information Page -->
     <div id="patientPage" style="display: none;">
         <div class="header">
-            <h2>Healthcare Management System</h2>
+            <h2>Health</h2>
             <div class="search-container">
                 <input type="text" id="patientSearchHeader" placeholder="Enter Patient ID" />
                 <button class="btn btn-primary" id="searchPatientButton" onclick="searchPatientFromPatientPage()">Search</button>
+                <button class="bg-red px-3 py-1 rounded hover:bg-red-700" onclick="logout()">Log out</button>
             </div>
         </div>
+        <div class="container mx-auto mt-6 bg-white shadow-md rounded-lg p-6">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <img src="" alt="Patient Profile" class="rounded-full">
+                        <div>
+                            <h1 class="text-2xl font-bold">Jake MEDLOCK</h1>
+                            <p class="text-gray-600">69yo M · he/him · 07-21-1952 · #14545</p>
+                        </div>
+                    </div>
 
+                    <div class="border-b border-gray-200">
+                        <div class="btn-group">
+                    <button class="btn btn-success" onclick="showPhonePayer()">Phone Payer</button>
+                    <button class="btn btn-primary" onclick="showEditClaims()">Claim Information</button>
+                </div>
+                    </div>
+                </div>
         <div class="container">
             <div class="card">
                 <h3>Patient Information</h3>
@@ -215,6 +248,10 @@
                         <input type="text" id="facilityName" class="field-value" />
                     </div>
                     <div class="field-group">
+                        <label class="field-label" for="NPI">NPI</label>
+                        <input type="text" id="NPI" class="field-value" />
+                    </div>
+                    <div class="field-group">
                         <label class="field-label" for="paymentMode">Payment Mode</label>
                         <select id="paymentMode" class="field-value" onchange="togglePaymentFields()">
                             <option value="">Select Payment Mode</option>
@@ -243,11 +280,13 @@
                 </form>
             </div>
 
+
+
             <div class="card">
                 <h3>Notes</h3>
                 <form id="notesForm">
                     <div class="field-group">
-                        <label class="field-label" for="patientNotes">Notes</label>
+                        <label class="field-label" for="patientNotes"></label>
                         <textarea id="patientNotes" class="field-value" placeholder="Enter detailed patient notes here..."></textarea>
                     </div>
                 </form>
@@ -259,15 +298,130 @@
         </div>
     </div>
 
-    <div id="logoutButton" style="position: fixed; bottom: 20px; right: 20px;">
-        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+   <!-- Phone Payer Page -->
+    <div id="phonePayerPage" style="display: none;">
+        <div class="container">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Phone Payer Information</h3>
+                    <button class="btn btn-secondary" onclick="backToPatient()">Back to Patient</button>
+                </div>
+                <div class="two-column">
+                    <div>
+                        <h4 class="section-title">Patient Information</h4>
+                        <div class="info">
+                            <strong>Name</strong>
+                            <span>John Doe</span>
+                        </div>
+                        <div class="info">
+                            <strong>Policy Number</strong>
+                            <span>POL123456</span>
+                        </div>
+                        <div class="info">
+                            <strong>Insurance Provider</strong>
+                            <span>Health Insurance Co</span>
+                        </div>
+                        <div class="info">
+                            <strong>Date of Birth</strong>
+                            <span>1990-01-01</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="section-title">Provider Information</h4>
+                        <div class="info">
+                            <strong>Provider Name</strong>
+                            <span>Dr. Jane Smith</span>
+                        </div>
+                        <div class="info">
+                            <strong>NPI</strong>
+                            <span>1234567890</span>
+                        </div>
+                        <div class="info">
+                            <strong>Specialty</strong>
+                            <span>Family Medicine</span>
+                        </div>
+                        <div class="info">
+                            <strong>Contact Number</strong>
+                            <span>(555) 987-6543</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="section-title">Claim Information</h4>
+                    <div class="info">
+                        <strong>Patient ID</strong>
+                        <span>123</span>
+                    </div>
+                    <div class="info">
+                        <strong>Date of Service</strong>
+                        <span>2024-03-15</span>
+                    </div>
+                    <div class="info">
+                        <strong>Claim Status</strong>
+                        <span>Pending</span>
+                    </div>
+                    <div class="info">
+                        <strong>Claim Amount</strong>
+                        <span>$750.00</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 20px;">Call Insurance Provider</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Edit Claims Page -->
+    <div id="editClaimsPage" style="display: none;">
+        <div class="container">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Edit Claims</h3>
+                    <button class="btn btn-secondary" onclick="backToPatient()">Back to Patient</button>
+                </div>
+                <h4>Patient Information</h4>
+                <div class="info"><strong>Name</strong><span>John Doe</span></div>
+                <div class="info"><strong>Date of Birth</strong><span>1990-01-01</span></div>
+                <div class="info"><strong>Insurance Provider</strong><span>Health Insurance Co</span></div>
+                <div class="info"><strong>Policy Number</strong><span>POL123456</span></div>
+
+                <h4 style="margin-top: 20px;">Claims</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date of Service</th>
+                            <th>Procedure Code</th>
+                            <th>Diagnosis</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-03-15</td>
+                            <td>99213</td>
+                            <td>Hypertension</td>
+                            <td>$150.00</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-03-01</td>
+                            <td>99214</td>
+                            <td>Diabetes</td>
+                            <td>$200.00</td>
+                            <td><span class="status status-approved">Approved</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 <script>
     // Get all page elements
     const loginPage = document.getElementById('loginPage');
     const searchPage = document.getElementById('searchPage');
     const patientPage = document.getElementById('patientPage');
+    const phonePayerPage = document.getElementById('phonePayerPage');
+    const editClaimsPage = document.getElementById('editClaimsPage');
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
 
@@ -298,7 +452,7 @@
 
     // Function to show a specific page and hide others
     function showPage(pageToShow) {
-        [loginPage, searchPage, patientPage].forEach(page => {
+        [loginPage, searchPage, patientPage, phonePayerPage, editClaimsPage].forEach(page => {
             page.style.display = 'none';
         });
         pageToShow.style.display = 'block';
@@ -337,7 +491,10 @@
         fetchPatientData(patientId);
     }
 
-
+    // Navigate back to patient page
+    function backToPatient() {
+        showPage(patientPage);
+    }
     // Fetch patient data and populate the page
     function fetchPatientData(patientId) {
         fetch(`/api/patient/${patientId}`)
@@ -410,6 +567,16 @@
     function logout() {
         localStorage.removeItem('isLoggedIn');
         showPage(loginPage);
+    }
+
+    // Show phone payer page
+    function showPhonePayer() {
+        showPage(phonePayerPage);
+    }
+
+    // Show edit claims page
+    function showEditClaims() {
+        showPage(editClaimsPage);
     }
 
     // Initialize to login page
